@@ -23,20 +23,16 @@ Run an existing app unchanged in classic mode (a front controller executed per r
 ## 📦 Which repo is which
 
 - [rapira](https://github.com/rapira-rs/rapira): the server itself - the Rust core, the embed SAPI integration, and the Pingora HTTP front. Start here.
-- [contract](https://github.com/rapira-rs/contract): the PHP-side contract - declares the types the PHP/Rust boundary speaks; the server provides the objects.
-- [sdk-php](https://github.com/rapira-rs/sdk-php): development monorepo for the PHP building blocks; each one ships as its own split package:
-  - [http-php](https://github.com/rapira-rs/http-php): `rapira/http` - PSR-7 server-request factories for every run mode.
-  - [testing-php](https://github.com/rapira-rs/testing-php): `rapira/testing` - provisions the server binary and runs a live server around your test cases.
+- [sdk-php](https://github.com/rapira-rs/sdk-php): the PHP building blocks - PSR-7 request factories, testing utilities, and helpers, each published as its own package.
 - [yii-runner-rapira](https://github.com/rapira-rs/yii-runner-rapira): web application runner for Yii3.
-- [rapira-windows](https://github.com/rapira-rs/rapira-windows): ZTS Windows build with full feature parity, used for testing purposes.
 - [rapira-rs.github.io](https://github.com/rapira-rs/rapira-rs.github.io): source of the documentation site, [rapira.rs](https://rapira.rs).
 
 ## 🚀 Getting started
 
-Every [release](https://github.com/rapira-rs/rapira/releases) bundles PHP 8.4 or 8.5 (NTS) - no separate PHP installation needed. Grab the package or tarball for your platform:
+Every [release](https://github.com/rapira-rs/rapira/releases) bundles PHP (NTS) - no separate PHP installation needed. Grab the package or tarball for your platform and PHP version:
 
 ```sh
-sudo apt install ./rapira-php8.5_<version>_amd64.deb
+sudo apt install ./rapira-php<X.Y>_<version>_amd64.deb
 rapira serve --mode classic public/index.php
 ```
 
