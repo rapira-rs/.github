@@ -16,7 +16,7 @@
 
 ## 👋 What is Rapira
 
-Rapira is a PHP application server written in Rust, built by the maintainers of [RoadRunner](https://github.com/roadrunner-server/roadrunner). It embeds NTS PHP into the server process through PHP's embed SAPI: the host calls the interpreter directly, with no FastCGI, no sockets, no per-request serialization, and serves HTTP through a bundled [Pingora](https://github.com/cloudflare/pingora)-based front.
+Rapira is a PHP application server written in Rust, built by the maintainers of [RoadRunner](https://github.com/roadrunner-server/roadrunner). It embeds NTS PHP into the server process through PHP's embed SAPI: the host calls the interpreter directly, with no FastCGI, no sockets, no per-request serialization. Like RoadRunner, the server is extended through plugins.
 
 Run an existing app unchanged in classic mode (a front controller executed per request, where php-fpm used to sit), or keep it resident in worker mode and pay the bootstrap cost once per worker instead of once per request.
 
