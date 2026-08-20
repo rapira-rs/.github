@@ -22,7 +22,7 @@ Run an existing app unchanged in classic mode (a front controller executed per r
 
 ## 📦 Which repo is which
 
-- [rapira](https://github.com/rapira-rs/rapira): the server itself - the Rust core, the embed SAPI integration, and the Pingora HTTP front. Start here.
+- [rapira](https://github.com/rapira-rs/rapira): the server itself - the Rust core, the embed SAPI integration.
 - [sdk-php](https://github.com/rapira-rs/sdk-php): the PHP building blocks - PSR-7 request factories, testing utilities, and helpers, each published as its own package.
 - [yii-runner-rapira](https://github.com/rapira-rs/yii-runner-rapira): web application runner for Yii3.
 - [rapira-rs.github.io](https://github.com/rapira-rs/rapira-rs.github.io): source of the documentation site, [rapira.rs](https://rapira.rs).
