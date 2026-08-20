@@ -36,6 +36,8 @@ sudo apt install ./rapira-php<X.Y>_<version>_amd64.deb
 rapira serve --mode classic public/index.php
 ```
 
+The bundled `libphp.so`/`libphp.dylib` is built with `--disable-all` and a fixed set of extensions turned back on: `OPcache` and `PCRE` with JIT, `session`, `filter`, `mbstring`, `iconv`, `ctype`, `tokenizer`, `fileinfo`, `phar`, `openssl`, `curl`, `zlib`, the XML family (`libxml`, `dom`, `xml`, `simplexml`, `xmlreader`, `xmlwriter`), `pdo_sqlite` and `sqlite3`, plus everything PHP always builds in. If your app needs more, [build from source](https://rapira.rs/docs/intro/build-from-source) against your own libphp or install the system one.
+
 Docker images live at `ghcr.io/rapira-rs/rapira`, staged for copying into your own image. Full instructions: [installation](https://rapira.rs/docs/intro/installation), [quickstart](https://rapira.rs/docs/intro/quickstart), [worker mode](https://rapira.rs/docs/worker), and framework guides for [Symfony, Laravel, and Yii3](https://rapira.rs/docs/frameworks/).
 
 ## 🤝 Contributing
