@@ -1,45 +1,52 @@
 <p align="center">
-  <a href="https://rapira.rs"><img src="https://github.com/rapira-rs/rapira-rs.github.io/blob/main/public/logo.svg" alt="Rapira" width="360" /></a>
+  <a href="https://rapira.rs"><img src="https://rapira.rs/logo.svg" alt="Rapira" width="360" /></a>
 </p>
 
-<p align="center">A post-modern PHP application server.</p>
+<p align="center">A Rust application server for PHP.</p>
 
 <p align="center">
-  <a href="https://rapira.rs">Website</a>
+  <a href="https://rapira.rs">Rapira website</a>
   ·
-  <a href="https://rapira.rs/docs/intro/">Documentation</a>
+  <a href="https://rapira.rs/docs/intro/">Rapira documentation</a>
   ·
-  <a href="https://rapira.rs/docs/intro/quickstart">Quickstart</a>
+  <a href="https://rapira.rs/docs/intro/quickstart">Rapira quickstart</a>
   ·
-  <a href="https://github.com/rapira-rs/rapira/releases">Releases</a>
+  <a href="https://github.com/rapira-rs/rapira/releases">Rapira releases</a>
 </p>
 
-## 👋 What is Rapira
+## About Rapira
 
-Rapira is a PHP application server written in Rust, built by the maintainers of [RoadRunner](https://github.com/roadrunner-server/roadrunner). It embeds NTS PHP into the server process through PHP's embed SAPI: the host calls the interpreter directly, with no FastCGI, no sockets, no per-request serialization. Like RoadRunner, the server is extended through plugins.
+Rapira is a Rust application server for PHP. The maintainers of [RoadRunner](https://github.com/roadrunner-server/roadrunner) develop Rapira. It uses the PHP embed SAPI to load non-thread-safe (NTS) PHP in the server process. Rapira calls the PHP interpreter directly. It does not use FastCGI, a socket between Rapira and PHP, or per-request serialization. Plugins extend Rapira.
 
-Run an existing app unchanged in classic mode (a front controller executed per request, where php-fpm used to sit), or keep it resident in worker mode and pay the bootstrap cost once per worker instead of once per request.
+Rapira has three execution modes:
 
-## 📦 Which repo is which
+- [Classic mode](https://rapira.rs/docs/classic) runs the front controller for each request. It can replace `php-fpm` for an existing PHP application. The application does not need code changes.
+- [Worker mode](https://rapira.rs/docs/worker) keeps the application in memory. Rapira initializes the application one time for each worker and calls a handler for each request.
+- [Dispatcher mode](https://rapira.rs/docs/execution-modes#dispatcher) keeps the application in memory. It gives each HTTP request to the application as a `Rapira\Http\Exchange` object. Dispatcher is the default mode.
 
-- [rapira](https://github.com/rapira-rs/rapira): the server itself - the Rust core, the embed SAPI integration.
-- [sdk-php](https://github.com/rapira-rs/sdk-php): the PHP building blocks - PSR-7 request factories, testing utilities, and helpers, each published as its own package.
-- [yii-runner-rapira](https://github.com/rapira-rs/yii-runner-rapira): web application runner for Yii3.
-- [rapira-rs.github.io](https://github.com/rapira-rs/rapira-rs.github.io): source of the documentation site, [rapira.rs](https://rapira.rs).
+## Getting started
 
-## 🚀 Getting started
+Rapira release packages and tar archives include NTS PHP. You do not need to install PHP separately. Use the [download page](https://rapira.rs/download) to select a file for your operating system, processor architecture, PHP version, and package format. Verify the file before installation. Follow the [installation guide](https://rapira.rs/docs/intro/installation).
 
-Every [release](https://github.com/rapira-rs/rapira/releases) bundles PHP (NTS) - no separate PHP installation needed. Grab the package or tarball for your platform and PHP version:
+After installation, start an existing application in Classic mode:
 
 ```sh
-sudo apt install ./rapira-php<X.Y>_<version>_amd64.deb
 rapira serve --mode classic public/index.php
 ```
 
-The bundled `libphp.so`/`libphp.dylib` is built with `--disable-all` and a fixed set of extensions turned back on: `OPcache` and `PCRE` with JIT, `session`, `filter`, `mbstring`, `iconv`, `ctype`, `tokenizer`, `fileinfo`, `phar`, `openssl`, `curl`, `zlib`, the XML family (`libxml`, `dom`, `xml`, `simplexml`, `xmlreader`, `xmlwriter`), `pdo_sqlite` and `sqlite3`, plus everything PHP always builds in. If your app needs more, [build from source](https://rapira.rs/docs/intro/build-from-source) against your own libphp or install the system one.
+Release packages and tar archives contain a fixed set of PHP extensions. See the [current extension list](https://rapira.rs/docs/intro/installation#the-libphp-build). If your application needs other extensions, [build a compatible NTS `libphp` with the required extensions](https://rapira.rs/docs/intro/build-from-source#building-php-yourself). You do not need to rebuild Rapira.
 
-Docker images live at `ghcr.io/rapira-rs/rapira`, staged for copying into your own image. Full instructions: [installation](https://rapira.rs/docs/intro/installation), [quickstart](https://rapira.rs/docs/intro/quickstart), [worker mode](https://rapira.rs/docs/worker), and framework guides for [Symfony, Laravel, and Yii3](https://rapira.rs/docs/frameworks/).
+Use the `ghcr.io/rapira-rs/rapira:php8.4` or `ghcr.io/rapira-rs/rapira:php8.5` container image. Each image uses `scratch` as its base. Rapira does not publish a `latest` tag. The image contains Rapira and `libphp.so`. It cannot run by itself. Copy its files into your application image. See the [Docker instructions](https://rapira.rs/docs/intro/installation#docker).
 
-## 🤝 Contributing
+For more information, see the [quickstart](https://rapira.rs/docs/intro/quickstart), [Worker mode guide](https://rapira.rs/docs/worker), and [framework guides for Symfony, Laravel, and Yii 3](https://rapira.rs/docs/frameworks/).
 
-Found a bug or want a feature? Open an issue in the matching repository; when in doubt, [rapira-rs/rapira](https://github.com/rapira-rs/rapira/issues) is the right place. Build and test instructions are in [CONTRIBUTING.md](https://github.com/rapira-rs/rapira/blob/main/CONTRIBUTING.md).
+## Main repositories
+
+- The [rapira](https://github.com/rapira-rs/rapira) repository contains the Rust server core and its integration with the PHP embed SAPI.
+- The [sdk-php](https://github.com/rapira-rs/sdk-php) repository contains PSR-7 request factories and test utilities. The project publishes each SDK component as a separate Composer package.
+- The [yii-runner-rapira](https://github.com/rapira-rs/yii-runner-rapira) repository contains the Yii 3 application runner for Worker mode.
+- The [rapira-rs.github.io](https://github.com/rapira-rs/rapira-rs.github.io) repository contains the source for the [rapira.rs](https://rapira.rs) documentation site.
+
+## Contributing
+
+Open PHP SDK issues in the [sdk-php issue tracker](https://github.com/rapira-rs/sdk-php/issues). Open all other issues in the [Rapira issue tracker](https://github.com/rapira-rs/rapira/issues). See the [Rapira contribution guide](https://github.com/rapira-rs/rapira/blob/main/CONTRIBUTING.md) for build and test instructions.
